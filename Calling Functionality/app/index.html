@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Calling App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/socket.io.js" defer></script>
+    <script src="/js/main.js" defer></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        #availability-status {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-container">
+        <aside class="caller-list-wrapper">
+            <h1 class="caller-list-heading h-font">Contacts</h1>
+            <ul id="allusers" class="caller-list">
+                <!-- Dynamically generated contact list -->
+            </ul>
+        </aside>
+        
+        <!-- Username Input Section -->
+        <div class="username-input">
+            <input id="username" type="text" placeholder="Enter Username">
+            <button id="create-user">Create</button>
+        </div>
+
+        <section class="audio-call-container hidden">
+            <!-- User List and Availability -->
+            <div id="user-list-container">
+                <h3>All Users</h3>
+                <ul id="allusers"></ul>
+            </div>
+        
+            <!-- Availability Toggle -->
+            <div id="availability-toggle-container">
+                <label for="availability-select">Set Availability:</label>
+                <select id="availability-select">
+                    <option value="available">Available</option>
+                    <option value="in-meeting">In Meeting</option>
+                    <option value="commuting">Commuting</option>
+                    <option value="off-sick">Off Sick</option>
+                    <option value="on-leave">On Leave</option>
+                    <option value="working-remotely">Working Remotely</option>
+                </select>
+                <span id="availability-status">Available</span>
+            </div>
+        
+            <!-- Audio Stream Section -->
+            <div class="audio-stream">
+                <p>Audio Call in Progress</p>
+                <audio id="localAudio" autoplay muted></audio>
+                <audio id="remoteAudio" autoplay></audio>
+            </div>
+        
+            <!-- Call Timer -->
+            <div id="call-timer" class="call-timer">00:00</div>
+            
+            <!-- Call Controls -->
+            <div class="call-controls">
+                <button id="mute-btn" class="call mute-button">Mute</button>
+                <button id="end-call-btn" class="call call-disconnect d-none">
+                    End Call
+                </button>
+                <button id="record-btn" class="call mute-button">Start Recording</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const createUserButton = document.getElementById('create-user');
+            const audioCallContainer = document.querySelector('.audio-call-container');
+            const availabilitySelect = document.getElementById('availability-select');
+            const availabilityStatus = document.getElementById('availability-status');
+
+            // Handle user creation
+            createUserButton.addEventListener('click', () => {
+                const username = document.getElementById('username').value.trim();
+                
+                if (username) {
+                    audioCallContainer.classList.remove('hidden');
+                    alert(`Welcome, ${username}!`);
+                } else {
+                    alert('Please enter a username before proceeding.');
+                }
+            });
+
+            // Update the availability status when the dropdown changes
+            availabilitySelect.addEventListener('change', (event) => {
+                const selectedAvailability = event.target.value;
+                switch (selectedAvailability) {
+                    case 'in-meeting':
+                        availabilityStatus.textContent = 'In Meeting';
+                        break;
+                    case 'commuting':
+                        availabilityStatus.textContent = 'Commuting';
+                        break;
+                    case 'off-sick':
+                        availabilityStatus.textContent = 'Off Sick';
+                        break;
+                    case 'on-leave':
+                        availabilityStatus.textContent = 'On Leave';
+                        break;
+                    case 'working-remotely':
+                        availabilityStatus.textContent = 'Working Remotely';
+                        break;
+                    default:
+                        availabilityStatus.textContent = 'Available';
+                        break;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
