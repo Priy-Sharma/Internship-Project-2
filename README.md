@@ -3,7 +3,8 @@
 
 A simple real-time audio calling web app built with Node.js. Users can toggle availability, see other active users, and initiate audio calls. The app includes basic in-call controls like mute and recording.
 
-![App Screenshot](./Screenshot%20(14).png)
+![App Screenshot]()
+![Screenshot (14)](https://github.com/user-attachments/assets/7eb9772a-87c0-4560-9043-d00096bb3331)
 
 ---
 
